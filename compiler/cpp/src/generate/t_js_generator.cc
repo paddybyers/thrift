@@ -1251,7 +1251,7 @@ void t_js_generator::generate_deserialize_field(ofstream &out,
           name;
         break;
       case t_base_type::TYPE_STRING:
-        out << "readString()";
+    	out << (((t_base_type*)type)->is_binary() ? "readBinary()" : "readString()");
         break;
       case t_base_type::TYPE_BOOL:
         out << "readBool()";

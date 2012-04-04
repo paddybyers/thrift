@@ -366,9 +366,7 @@ string t_java_generator::java_type_imports() {
     "import java.util.Collections;\n" +
     "import java.util.BitSet;\n" +
     "import java.nio.ByteBuffer;\n"
-    "import java.util.Arrays;\n" +
-    "import org.slf4j.Logger;\n" +
-    "import org.slf4j.LoggerFactory;\n\n";
+    "import java.util.Arrays;\n\n";
 }
 
 /**
@@ -2592,8 +2590,6 @@ void t_java_generator::generate_service_server(t_service* tservice) {
   indent(f_service_) <<
     "public static class Processor<I extends Iface> extends " << extends_processor << " implements org.apache.thrift.TProcessor {" << endl;
   indent_up();
-
-  indent(f_service_) << "private static final Logger LOGGER = LoggerFactory.getLogger(Processor.class.getName());" << endl;
 
   indent(f_service_) << "public Processor(I iface) {" << endl;
   indent(f_service_) << "  super(iface, getProcessMap(new HashMap<String, org.apache.thrift.ProcessFunction<I, ? extends org.apache.thrift.TBase>>()));" << endl;

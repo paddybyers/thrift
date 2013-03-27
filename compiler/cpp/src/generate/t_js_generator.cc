@@ -688,7 +688,7 @@ void t_js_generator::generate_js_struct_writer(ofstream& out,
   indent(out) << "output.writeStructBegin('" << name << "');" << endl;
 
   for (f_iter = fields.begin(); f_iter != fields.end(); ++f_iter) {
-    out << indent() << "if (this." << (*f_iter)->get_name() << " !== null) {" << endl;
+    out << indent() << "if (this." << (*f_iter)->get_name() << " !== undefined) {" << endl;
     indent_up();
 
     indent(out) <<
@@ -1421,7 +1421,7 @@ void t_js_generator::generate_deserialize_set_element(ofstream &out,
   t_field felem(tset->get_elem_type(), elem);
 
   indent(out) <<
-    "var " << elem << " = null;" << endl;
+    "var " << elem << " = undefined;" << endl;
 
   generate_deserialize_field(out, &felem);
 
@@ -1436,7 +1436,7 @@ void t_js_generator::generate_deserialize_list_element(ofstream &out,
   t_field felem(tlist->get_elem_type(), elem);
 
   indent(out) <<
-    "var " << elem << " = null;" << endl;
+    "var " << elem << " = undefined;" << endl;
 
   generate_deserialize_field(out, &felem);
 
@@ -1676,26 +1676,26 @@ string t_js_generator::declare_field(t_field* tfield, bool init, bool obj) {
       case t_base_type::TYPE_I32:
       case t_base_type::TYPE_I64:
       case t_base_type::TYPE_DOUBLE:
-        result += " = null";
+        result += " = undefined";
         break;
       default:
         throw "compiler error: no JS initializer for base type " + t_base_type::t_base_name(tbase);
       }
     } else if (type->is_enum()) {
-      result += " = null";
+      result += " = undefined";
     } else if (type->is_map()){
-      result += " = null";
+      result += " = undefined";
     } else if (type->is_container()) {
-      result += " = null";
+      result += " = undefined";
     } else if (type->is_struct() || type->is_xception()) {
       if (obj) {
           result += " = new " +js_type_namespace(type->get_program()) + type->get_name() + "()";
       } else {
-        result += " = null";
+        result += " = undefined";
       }
     }
   } else {
-    result += " = null";
+    result += " = undefined";
   }
   return result;
 }
